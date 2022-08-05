@@ -66,6 +66,142 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 }
 ```
+Now, we will make theses tests in the applications. To more organization paths, i created, in root, a path named __tests__, and inside it, i intent is to put all archives about tests this app.
+
+In this project, using unit tests, i wanted to test the action to counter button, so i created the file called count.screen.test.js and that i implemments the test. For this, it’s need to import React, the page to test and any resources of the test’s libary. After this, it’s neet to follow this structure:
+
+```jsx
+describe('test', () => {
+
+  it('<name-test>', () => {
+    const page = render(<App/>) // create, render, this test object, the page
+    const buttonCount = page.getByTestId('buttonCounter') // here find the element inside the page 
+    fireEvent.press(buttonCount) // here, called an action
+    expect(page.getByTestId('textLabel').children.toString()).toBe('Count: ,1') // and here, ending, put the value expected of the action
+    /* needs to use ',' by to indicate an parameter ( `variable inside text ${...}` ) */
+  })
+
+})
+```
+
+### Snapshots tests
+
+The snapshots tests, is a test by apps’ graphic interface, saving that to don’t change with codes upgrades. Basically it’s make to compare the UI rendered with the default created by you. this case it’s more used to frontend.
+
+For to implemment these test, we needed to create other archive to generate the default’s snapshot. In this file, follow this structure:
+
+```jsx
+import React from 'react';
+import App from '../App';
+import renderer from 'react-test-renderer'
+
+/* create a snapshot by defalut and compared to tests */
+test('renders correctly', () => {
+  const tree = renderer.create(<App/>).toJSON()
+  expect(tree).toMatchSnapshot()
+})
+```
+
+When we runner the tests, will be created this folther: __snapshots__, following this secture
+
+```jsx
+|
+|->__tests__
+	|
+	|->count.create_snapshot.test
+	|
+	|->__snapshots__
+		|
+		|->count.snapshot.test.js.snap
+
+```
+
+This new file, created after run, is similar with this.This file has to commit together the rest the changed code.
+
+```jsx
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#487",
+      "borderWidth": 10,
+      "flex": 1,
+      "justifyContent": "center",
+      "padding": 15,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#fff",
+        "fontSize": 25,
+        "marginVertical": 10,
+      }
+    }
+  >
+    App by unit test
+  </Text>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#806",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "marginVertical": 10,
+        "opacity": 1,
+        "paddingHorizontal": 15,
+        "paddingVertical": 10,
+      }
+    }
+    testID="buttonCounter"
+  >
+    <Text
+      style={
+        Object {
+          "color": "#fff",
+          "fontSize": 23,
+        }
+      }
+    >
+      Button
+    </Text>
+  </View>
+  <Text
+    style={
+      Object {
+        "borderRadius": 5,
+        "borderWidth": 2,
+        "color": "#fff",
+        "fontSize": 25,
+        "marginVertical": 10,
+        "padding": 10,
+      }
+    }
+    testID="textLabel"
+  >
+    Count: 
+    0
+  </Text>
+</View>
+`;
+```
+
+Now, every runs the tests, the snapshot will to compare with this file created and find for the changed, if has
+
 
 # Fonts
 
@@ -76,3 +212,7 @@ module.exports = {
 https://github.com/weifxn/react-native-unit-testing
 
 [REACT NATIVE Tutorial #7 - Unit testing a real app](https://www.youtube.com/watch?v=Jk5YDUxrg54)
+
+[Teste de Snapshot](https://jestjs.io/pt-BR/docs/snapshot-testing)
+
+[Testando Apps React Native](https://jestjs.io/pt-BR/docs/tutorial-react-native)
