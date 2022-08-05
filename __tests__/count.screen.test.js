@@ -8,7 +8,8 @@ describe('test', () => {
     const page = render(<App/>)
     const buttonCount = page.getByTestId('buttonCounter')
     fireEvent.press(buttonCount)
-    expect(page.getByTestId('textLabel')).toHaveTextContent('Count: 1')
+    expect(page.getByTestId('textLabel').children.toString()).toBe('Count: ,1') 
+    /* needs to use ',' by to indicate an parameter */
   })
 
 })

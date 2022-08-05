@@ -7,13 +7,12 @@ import {
     StatusBar,
 } from 'react-native'
 
-export default function App({counter}){
+export default function App(){
 
     const [count, setCount] = useState(0)
 
     const action = () => {
         setCount(count + 1)
-        counter = count
     }
 
     return(
